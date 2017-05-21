@@ -12,7 +12,7 @@ class form_fieldsets(object):
     '''
 
     def fieldsets(self):
-        fieldsets = getattr(self.Meta, 'fieldsets', [{'fields': self.fields.keys(), 'title': 'main'}])
+        fieldsets = getattr(self.Meta, 'fieldsets', [{'fields': list(self.fields.keys()), 'title': 'main'}])
         result = list()
         for fieldset in fieldsets:
             result.append({

@@ -61,7 +61,7 @@ class PutStatic:
 
     def _get_min_filename(self):
         return re.sub(
-            re.compile(ur'^(?P<name>[\w\W]*).(?P<type>css|js)$', re.UNICODE),
+            re.compile(r'^(?P<name>[\w\W]*).(?P<type>css|js)$', re.UNICODE),
             lambda m: '%s.min.%s' % (m.groupdict()['name'],
                                      m.groupdict()['type']),
             self.filename
@@ -89,7 +89,7 @@ class PutStatic:
     def _fix_relative_path(self, text):
         if self.type == 'css':
             result = re.sub(
-                re.compile(ur'url\(("|\'|\ |)(\.\.\/)(?P<path>[^\"\'\)]+)("|\'|)\)',
+                re.compile(r'url\(("|\'|\ |)(\.\.\/)(?P<path>[^\"\'\)]+)("|\'|)\)',
                            re.MULTILINE | re.UNICODE),
                 lambda m: 'url(%s%s)' % (settings.STATIC_URL,
                                          m.groupdict()['path']),
@@ -113,7 +113,7 @@ class PutStatic:
             return result % (settings.STATIC_URL, "/".join([self.dir, m.groupdict()['path']]))
 
         result = re.sub(
-            re.compile(ur'sourceMappingURL=(?P<scheme>https:\/\/|http:\/\/|\/\/)?(?P<path>[\w\.]+)',
+            re.compile(r'sourceMappingURL=(?P<scheme>https:\/\/|http:\/\/|\/\/)?(?P<path>[\w\.]+)',
                        re.UNICODE),
             _calculate_map_link,
             text
@@ -146,9 +146,9 @@ def put_css(path):
 
     try:
         file = PutStatic(path, 'css')  # , load_min=not settings.DEBUG)
-    except FileNotFindError, error:
+    except FileNotFindError as error:
         if settings.TEMPLATE_DEBUG:
-            return u'<script type=\"text/javascript\">console.log(\"файл\
+            return '<script type=\"text/javascript\">console.log(\"файл\
  %s ненайден\"); </script>' % path
         raise error
 
@@ -166,9 +166,9 @@ def put_js(path):
 
     try:
         file = PutStatic(path, 'js')  # , load_min=not settings.DEBUG)
-    except FileNotFindError, error:
+    except FileNotFindError as error:
         if settings.TEMPLATE_DEBUG:
-            return u'<script type=\"text/javascript\">console.log(\"файл\
+            return '<script type=\"text/javascript\">console.log(\"файл\
  %s ненайден\"); </script>' % path
         raise error
 

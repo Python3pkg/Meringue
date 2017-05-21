@@ -124,8 +124,8 @@ class PublishModel(GetAbsoluteUrlMixin, models.Model):
     '''
 
     is_published = models.BooleanField(
-        verbose_name=_(u'публикация'),
-        help_text=_(u'Отображать/Скрыть'),
+        verbose_name=_('публикация'),
+        help_text=_('Отображать/Скрыть'),
         default=True,
         db_index=True,
     )

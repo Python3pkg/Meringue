@@ -11,5 +11,5 @@ def get_version(version):
     try:
         return str(NormalizedVersion.from_parts(*version))
     except NameError:
-        logging.info(u'for better install verlib' )
+        logging.info('for better install verlib' )
         return '.'.join([str(j) for i in version for j in i])

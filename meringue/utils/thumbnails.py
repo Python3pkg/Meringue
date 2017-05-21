@@ -62,13 +62,13 @@ class Thumbnail(object):
         '''
         hash = [i for i in self.proc]  # self.proc
         hash.append(os.path.basename(self.filename))
-        return md5(unicode(hash)).hexdigest()
+        return md5(str(hash)).hexdigest()
 
     def make_thumbnail(self):
         try:
             self.image = Image.open(self.filename)
             self.image = self.image.convert('RGBA')
-        except IOError, detail:
+        except IOError as detail:
             raise Exception(detail)
 
         self.size = [float(i) for i in self.image.size]
@@ -174,27 +174,27 @@ def _dummyimage(task_list):
                 break
             except AttributeError:
                 pass
-        return u'http://dummyimage.com/%sx%s/9e9e9e/424242.png' % size
+        return 'http://dummyimage.com/%sx%s/9e9e9e/424242.png' % size
     return '%simages/noise.png' % settings.STATIC_URL
     # return '%simages/none.gif' % settings.STATIC_URL
 
 
 def get_thumbnail(filename, task_list):
-    if type(task_list) in [str, unicode]:
+    if type(task_list) in [str, str]:
         task_list = task_list.split(',')
     url = ''
     if os.path.isfile(filename):
         try:
             thumb = Thumbnail(filename, task_list)
             url = thumb.thumbnail_url
-        except Exception, er:
+        except Exception as er:
             # TODO 1: log error message cuz noone wishes to debug till here
             # TODO 2: Если в размерах ноль при ошибке нет превьюшки
             logging.error(Exception)
             logging.error(er)
             url = _dummyimage(task_list)
     else:
-        logging.error(u'File \'%s\' not find' % filename)
+        logging.error('File \'%s\' not find' % filename)
         # находить последний размер и цвет фона
         url = _dummyimage(task_list)
         # return ''

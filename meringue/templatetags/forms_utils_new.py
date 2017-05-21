@@ -12,7 +12,7 @@ register = template.Library()
 
 def get_name(field):
     caption = field.widget.__class__.__name__
-    r = ur'([A-Z]{1})([a-z]+)'
+    r = r'([A-Z]{1})([a-z]+)'
     p = re.compile(r)
     caption = p.sub(lambda m: '_'+m.group().lower(), caption)
     return caption
@@ -53,9 +53,9 @@ class FieldRender(object):
     #     return self.field
 
     def _default_with_label_render(self):
-        result = u'<label for=\"id_%s\" >%s</label>%s' % (
+        result = '<label for=\"id_%s\" >%s</label>%s' % (
             self.field.html_name,
-            unicode(self.field.label),
+            str(self.field.label),
             self.field
         )
         return mark_safe(result)
